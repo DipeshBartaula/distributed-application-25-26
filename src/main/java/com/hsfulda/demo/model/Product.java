@@ -9,24 +9,26 @@ public class Product {
     private double price;
     private String size;
     private String color;
+    private String category;
 
     public Product() {}
-    public Product(int id, String name, double price, String size, String color) {
+    public Product(int id, String name, double price, String size, String color, String category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.size = size;
         this.color = color;
+        this.category = category;
     }
 
     public static List<Product> productList = new ArrayList<>();
     static {
         productList.addAll(List.of(
-                new Product(1, "T-Shirt", 19.99, "M", "Blue"),
-                new Product(2, "Jeans", 49.99, "32", "Black"),
-                new Product(3, "Sneakers", 79.99, "42", "White"),
-                new Product(4, "Jacket", 99.99, "L", "Red"),
-                new Product(5, "Cap", 14.99, "Free Size", "Green")
+                new Product(1, "T-Shirt", 19.99, "M", "Blue","T-shirt"),
+                new Product(2, "Jeans", 49.99, "32", "Black","Pants"),
+                new Product(3, "Sneakers", 79.99, "42", "White","Shoes"),
+                new Product(4, "Jacket", 99.99, "L", "Red","Jacket"),
+                new Product(5, "Cap", 14.99, "Free Size", "Green","Accessories")
         ));
     }
 
@@ -68,6 +70,14 @@ public class Product {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
 
