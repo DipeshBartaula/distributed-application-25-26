@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+    <link rel="stylesheet" href="/create/user.css">
+</head>
+<body>
+<h1>Create New User</h1>
+
+<form action="/users" method="POST">
+    <label for="id">ID:</label>
+    <input type="number" name="id" id="id" required>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" name="firstName" id="firstName" required>
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" name="lastName" id="lastName" required>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required>
+
+    <label for="street">Street:</label>
+    <input type="text" name="street" id="street">
+
+    <label for="city">City:</label>
+    <input type="text" name="city" id="city">
+
+    <label for="state">State:</label>
+    <input type="text" name="state" id="state">
+
+    <label for="postalCode">Postal Code:</label>
+    <input type="text" name="postalCode" id="postalCode">
+
+    <br/>
+    <button type="submit">Create User</button>
+</form>
+
+<p style="margin-top:20px;">
+    <a href="/dashboard/dashboard.html">← Back to Dashboard</a>
+</p>
+</body>
+</html>

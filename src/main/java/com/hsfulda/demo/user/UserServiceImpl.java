@@ -31,4 +31,10 @@ public class UserServiceImpl implements UserService {
                 .findFirst()
                 .orElse(null);
     }
+
+    @Override
+    public List<User> addNewUser(User newUser) {
+        userList.add(newUser);
+        return userList;
+    }
 }

@@ -1,9 +1,7 @@
 package com.hsfulda.demo.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +25,21 @@ public class UserController {
     public User getUserById(@PathVariable int id) {
         return userService.getUserById(id);
     }
+
+    @PostMapping("/users")
+    public List<User> createUser(
+            @RequestParam int id,
+            @RequestParam String firstName,
+            @RequestParam String lastName,
+            @RequestParam String email,
+            @RequestParam String street,
+            @RequestParam String city,
+            @RequestParam String state,
+            @RequestParam String postalCode
+    ) {
+        Address address = new Address(street, city, state, postalCode);
+        User newUser = new User(id, firstName, lastName, address, email);
+        return userService.addNewUser(newUser);
+    }
+
 }
