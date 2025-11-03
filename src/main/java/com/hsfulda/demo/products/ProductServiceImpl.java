@@ -41,4 +41,15 @@ public class ProductServiceImpl implements ProductService{
                 .filter(product -> product.getCategory().equalsIgnoreCase(category) && product.getSize().equalsIgnoreCase(size))
                 .toList();
     }
+
+    @Override
+    public List<Product> addNewProduct(Product product) {
+        List<Product> existedProduct = productList.stream().filter(p-> p.getName().equals(product.getName())).toList();
+        if(!existedProduct.isEmpty()) {
+            return productList;
+        } else {
+            productList.add(product);
+            return productList;
+        }
+    }
 }

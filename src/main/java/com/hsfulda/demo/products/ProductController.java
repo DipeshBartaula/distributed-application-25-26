@@ -1,9 +1,7 @@
 package com.hsfulda.demo.products;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,5 +42,16 @@ public class ProductController {
     @GetMapping("/product/category/{category}/size/{size}")
     public List<Product> getProductByCategoryAndSize(@PathVariable String category, @PathVariable String size) {
         return productService.getProductByCategoryAndSize(category, size);
+    }
+
+    @PostMapping("/product")
+    public List<Product> addProduct(@RequestParam int id,
+                                    @RequestParam String name,
+                                    @RequestParam double price,
+                                    @RequestParam String size,
+                                    @RequestParam String color,
+                                    @RequestParam String category) {
+        Product newProduct = new Product(id,name,price,size,color,category);
+        return productService.addNewProduct(newProduct);
     }
 }

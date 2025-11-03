@@ -7,4 +7,5 @@ public interface ProductService {
     Product getProductById(int id);
     List<Product> getProductByColor(String color);
     List<Product> getProductByCategoryAndSize(String category, String size);
+    List<Product> addNewProduct(Product product);
 }
