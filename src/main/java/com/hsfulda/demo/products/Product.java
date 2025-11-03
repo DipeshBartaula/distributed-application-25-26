@@ -1,4 +1,4 @@
-package com.hsfulda.demo.model;
+package com.hsfulda.demo.products;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,16 +21,7 @@ public class Product {
         this.category = category;
     }
 
-    public static List<Product> productList = new ArrayList<>();
-    static {
-        productList.addAll(List.of(
-                new Product(1, "T-Shirt", 19.99, "M", "Blue","T-shirt"),
-                new Product(2, "Jeans", 49.99, "32", "Black","Pants"),
-                new Product(3, "Sneakers", 79.99, "42", "White","Shoes"),
-                new Product(4, "Jacket", 99.99, "L", "Red","Jacket"),
-                new Product(5, "Cap", 14.99, "Free Size", "Green","Accessories")
-        ));
-    }
+
 
     public int getId() {
         return id;
@@ -78,11 +69,6 @@ public class Product {
 
     public void setCategory(String category) {
         this.category = category;
-    }
-
-
-    public static List<Product> getProductList() {
-        return productList;
     }
 
 }
