@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Product</title>
+    <link rel="stylesheet" href="/create/style.css">
+</head>
+<body>
+<h1>Update Existing Product</h1>
+
+<form id="productForm" action="/update/product" method="POST">
+    <label for="id">Product ID (Required for Update):</label>
+    <input type="number" name="id" id="id" required>
+
+    <label for="name">New Product Name:</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="price">New Price: </label>
+    <input type="number" name="price" id="price" required>
+
+    <label for="size">New Size:</label>
+    <input type="text" name="size" id="size" required>
+
+    <label for="color">New Color:</label>
+    <input type="text" name="color" id="color">
+
+    <label for="category">New Category:</label>
+    <input type="text" name="category" id="category">
+
+    <br/>
+    <button type="submit">Update Product</button>
+</form>
+
+<p id="responseMessage" style="margin-top: 15px; font-weight: bold;"></p>
+
+<p style="margin-top:20px;">
+    <a href="/dashboard/dashboard.html">← Back to Dashboard</a>
+</p>
+
+<script>
+    const productForm = document.getElementById('productForm');
+    const responseMessage = document.getElementById('responseMessage');
+
+    productForm.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        let formData = new FormData(this);
+        var object = {};
+
+        formData.forEach(function(value, key) {
+            if (key === 'id' || key === 'price') {
+                object[key] = isNaN(parseFloat(value)) ? value : parseFloat(value);
+            } else {
+                object[key] = value;
+            }
+        });
+
+        var json = JSON.stringify(object);
+        console.log("JSON Payload:", json);
+
+        fetch(productForm.action, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: json
+        })
+        .then(response => {
+            if (response.status === 404) {
+                throw new Error(`Product with ID ${object.id} not found.`);
+            }
+            if (!response.ok) {
+                throw new Error('Update failed with status: ' + response.status);
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Product updated successfully:', data);
+
+            responseMessage.style.color = 'green';
+            responseMessage.textContent =
+                `✅ Success! Updated Product: ${data.name} (ID: ${data.id}) for $${data.price}.`;
+
+        })
+        .catch(error => {
+            console.error('Fetch Error:', error);
+            responseMessage.style.color = 'red';
+            responseMessage.textContent = `❌ Error! Failed to update product. Details: ${error.message}`;
+        });
+    });
+</script>
+</body>
+</html>

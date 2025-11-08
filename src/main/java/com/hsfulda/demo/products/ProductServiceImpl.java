@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService{
@@ -51,5 +52,24 @@ public class ProductServiceImpl implements ProductService{
             productList.add(product);
             return productList;
         }
+    }
+
+    @Override
+    public List<Product> deleteProduct(Long id) {
+        productList.removeIf(p->p.getId()==id);
+        return productList;
+    }
+
+    @Override
+    public Optional<Product> updateProduct(Product updatedProduct) {
+        int productId = updatedProduct.getId();
+
+        for (int i = 0; i < productList.size(); i++) {
+            if (productList.get(i).getId() == productId) {
+                productList.set(i, updatedProduct);
+                return Optional.of(updatedProduct);
+            }
+        }
+        return Optional.empty();
     }
 }

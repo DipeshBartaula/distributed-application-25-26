@@ -1,9 +1,11 @@
 package com.hsfulda.demo.products;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -59,5 +61,21 @@ public class ProductController {
     public Product addNewProduct(@RequestBody Product product) {
         productService.addNewProduct(product);
         return product;
+    }
+
+    @DeleteMapping("/delete/product/{id}")
+    public List<Product> deleteProduct(@PathVariable Long id) {
+        return productService.deleteProduct(id);
+    }
+
+    @PutMapping("/update/product")
+    public ResponseEntity<Product> updateProduct(@RequestBody Product product) {
+        Optional<Product> result = productService.updateProduct(product);
+
+        if (result.isPresent()) {
+            return ResponseEntity.ok(result.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

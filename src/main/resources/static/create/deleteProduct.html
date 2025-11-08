@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Product</title>
+</head>
+<body>
+<h1>Delete Product</h1>
+
+<label for="productId">Product ID to Delete:</label>
+<input type="number" id="productId" value="1" placeholder="Enter ID" required>
+
+<button id="deleteButton">Delete Product</button>
+
+<p id="responseMessage" style="margin-top: 15px; font-weight: bold;"></p>
+
+<script>
+    document.getElementById('deleteButton').addEventListener('click', function() {
+        const productId = document.getElementById('productId').value;
+        const url = `/delete/product/${productId}`;
+        const responseMessage = document.getElementById('responseMessage');
+
+        if (!productId) {
+            responseMessage.textContent = "Please enter a valid Product ID.";
+            responseMessage.style.color = 'red';
+            return;
+        }
+
+        // Using the Fetch API with the DELETE method
+        fetch(url, {
+            method: 'DELETE',
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Deletion failed. Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(remainingProducts => {
+            console.log('Remaining Products:', remainingProducts);
+
+            responseMessage.style.color = 'green';
+            responseMessage.textContent =
+                `✅ SUCCESS: Product ID ${productId} deleted. ${remainingProducts.length} products remaining. Check console for list.`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            responseMessage.style.color = 'red';
+            responseMessage.textContent = `❌ ERROR: ${error.message}`;
+        });
+    });
+</script>
+</body>
+</html>
