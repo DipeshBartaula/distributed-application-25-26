@@ -54,4 +54,10 @@ public class ProductController {
         Product newProduct = new Product(id,name,price,size,color,category);
         return productService.addNewProduct(newProduct);
     }
+
+    @PostMapping("/add/product")
+    public Product addNewProduct(@RequestBody Product product) {
+        productService.addNewProduct(product);
+        return product;
+    }
 }

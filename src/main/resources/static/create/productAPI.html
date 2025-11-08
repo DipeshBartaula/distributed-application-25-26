@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User</title>
+    <link rel="stylesheet" href="/create/style.css">
+</head>
+<body>
+<h1>Create New Product</h1>
+
+<form id="productForm" action="/add/product" method="POST">
+    <label for="id">ID:</label>
+    <input type="number" name="id" id="id" required>
+
+    <label for="name">Product Name:</label>
+    <input type="text" name="name" id="name" required>
+
+    <label for="price">Price: </label>
+    <input type="number" name="price" id="price" required>
+
+    <label for="size">Size:</label>
+    <input type="text" name="size" id="size" required>
+
+    <label for="color">Color:</label>
+    <input type="text" name="color" id="color">
+
+    <label for="category">Category:</label>
+    <input type="text" name="category" id="category">
+
+    <br/>
+    <button type="submit">Add Product</button>
+</form>
+<p id="responseMessage" style="margin-top: 15px; font-weight: bold; color: green;"></p>
+
+<p style="margin-top:20px;">
+    <a href="/dashboard/dashboard.html">← Back to Dashboard</a>
+</p>
+
+<script>
+    const productForm = document.getElementById('productForm');
+    const responseMessage = document.getElementById('responseMessage');
+
+        productForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+            var object = {};
+
+            formData.forEach(function(value, key) {
+                    object[key] = value;
+            });
+
+            var json = JSON.stringify(object);
+            console.log("JSON Payload:", json);
+
+            fetch(productForm.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: json
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Server responded with status: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Product created successfully:', data);
+
+                responseMessage.style.color = 'green';
+                responseMessage.textContent =
+                    `✅ Success! Added Product: ${data.name} (ID: ${data.id}) for $${data.price}.`;
+
+                productForm.reset();
+            })
+            .catch(error => {
+                console.error('Fetch Error:', error);
+                responseMessage.style.color = 'red';
+                responseMessage.textContent = `❌ Error! Failed to add product. Details: ${error.message}`;
+            });
+        });
+</script>
+</body>
+</html>
