@@ -1,6 +1,5 @@
 package com.hsfulda.demo.user;
 
-import com.hsfulda.demo.products.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

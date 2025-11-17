@@ -1,5 +1,7 @@
-package com.hsfulda.demo.products;
+package com.hsfulda.demo.products.controller;
 
+import com.hsfulda.demo.products.model.Product;
+import com.hsfulda.demo.products.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/rest-api")
 public class ProductController {
     private ProductService productService;
 

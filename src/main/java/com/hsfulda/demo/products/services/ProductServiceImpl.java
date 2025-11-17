@@ -1,5 +1,6 @@
-package com.hsfulda.demo.products;
+package com.hsfulda.demo.products.services;
 
+import com.hsfulda.demo.products.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductServiceImpl implements ProductService{
+public class ProductServiceImpl implements ProductService {
     //Hardcoded data
     public static List<Product> productList = new ArrayList<>();
     static {

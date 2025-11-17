@@ -1,7 +1,4 @@
-package com.hsfulda.demo.products;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.hsfulda.demo.products.model;
 
 public class Product {
     private int id;

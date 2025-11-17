@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Catalog</title>
+</head>
+<body>
+
+<!-- Header -->
+<header th:replace="fragments/header :: header"></header>
+
+<br>
+
+<!-- Content -->
+<h3>Browse our <span th:text="${products.size()}"></span> products</h3>
+
+<!-- Edit mode switch -->
+<p>
+    <a href="/mvc-api/product?edit=true">Edit Mode ON</a> |
+    <a href="/mvc-api/product?edit=false">Edit Mode OFF</a>
+</p>
+
+<table border="1" width="100%" cellpadding="5">
+    <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Link</th>
+
+        <!-- Show "Delete" column only in edit mode -->
+        <th th:if="${editMode}">Delete</th>
+    </tr>
+
+    <tr th:each="p : ${products}">
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.color}"></td>
+        <td th:text="${p.size}"></td>
+        <td th:text="${p.price}"></td>
+
+        <td>
+            <a th:href="@{'/mvc-api/product/' + ${p.id}}">Details</a>
+        </td>
+
+        <!-- Show delete button only in edit mode -->
+        <td th:if="${editMode}">
+            <a th:href="@{'/mvc-api/product/delete/' + ${p.id}}">Delete</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

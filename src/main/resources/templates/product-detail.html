@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Detail</title>
+</head>
+<body>
+
+<header th:replace="fragments/header :: header"></header>
+
+<h3>Product: <span th:text="${product.name}"></span></h3>
+
+<p>Size: <span th:text="${product.size}"></span></p>
+<p>Color: <span th:text="${product.color}"></span></p>
+<p>Price: <span th:text="${product.price}"></span></p>
+
+<a th:href="@{'/mvc-api/product/addcart/' + ${product.id}}">Add to Cart</a>
+
+</body>
+</html>

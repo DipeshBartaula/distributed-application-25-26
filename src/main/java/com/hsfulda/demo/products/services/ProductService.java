@@ -1,4 +1,6 @@
-package com.hsfulda.demo.products;
+package com.hsfulda.demo.products.services;
+
+import com.hsfulda.demo.products.model.Product;
 
 import java.util.List;
 import java.util.Optional;
