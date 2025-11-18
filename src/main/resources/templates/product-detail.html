@@ -12,15 +12,19 @@
 <p>Size: <span th:text="${productDetailDTO.product.size}"></span></p>
 <p>Color: <span th:text="${productDetailDTO.product.color}"></span></p>
 <p>Price: <span th:text="${productDetailDTO.product.price}"></span></p>
-<p>Stock: <span th:text="${productDetailDTO.stock}"></span></p>
 
-<div th:if="${productDetailDTO.isSoldOut}">
-    <strong style="color:red;">Sold Out!</strong>
-</div>
+<p>
+    Stock:
+    <span th:if="${!productDetailDTO.isSoldOut}"
+          th:text="${productDetailDTO.stock}"></span>
+    <span th:if="${productDetailDTO.isSoldOut}"
+          style="color:red;font-weight:bold;">Sold Out</span>
+</p>
 
-<div th:if="${!productDetailDTO.isSoldOut}">
-    <a th:href="@{'/mvc-api/product/addcart/' + ${productDetailDTO.product.id}}">Add to Cart</a>
-</div>
+<a th:unless="${productDetailDTO.isSoldOut}"
+   th:href="@{/mvc-api/product/addcart/{id}(id=${productDetailDTO.product.id})}">
+    <button>Add to Cart</button>
+</a>
 
 </body>
 </html>

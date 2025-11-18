@@ -8,10 +8,10 @@ public class InventoryServiceImpl implements InventoryService {
     private HashMap<Integer,Integer> stock = new HashMap<Integer,Integer>();
     {
         stock.put(1,2);
-        stock.put(2,5);
-        stock.put(3,5);
+        stock.put(2,4);
+        stock.put(3,6);
         stock.put(4,5);
-        stock.put(5,5);
+        stock.put(5,3);
     }
 
     public int getStockForProductId(int id) {
