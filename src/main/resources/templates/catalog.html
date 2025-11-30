@@ -5,19 +5,22 @@
 </head>
 <body>
 
-<!-- Header -->
 <header th:replace="fragments/header :: header"></header>
-
 <br>
 
-<!-- Content -->
-<h3>Browse our <span th:text="${products.size()}"></span> products</h3>
+<h3>Browse our <span th:text="${productCatalogDTO.stock}"></span> products</h3>
 
-<!-- Edit mode switch -->
 <p>
     <a href="/mvc-api/product?edit=true">Edit Mode ON</a> |
     <a href="/mvc-api/product?edit=false">Edit Mode OFF</a>
 </p>
+
+<div class="filter-buttons">
+    <a href="/mvc-api/product">All</a>
+    <a href="/mvc-api/product/color?color=Black">Black</a>
+    <a href="/mvc-api/product/color?color=Red">Red</a>
+    <a href="/mvc-api/product/color?color=Blue">Blue</a>
+</div>
 
 <table border="1" width="100%" cellpadding="5">
     <tr>
@@ -27,11 +30,10 @@
         <th>Price</th>
         <th>Link</th>
 
-        <!-- Show "Delete" column only in edit mode -->
         <th th:if="${editMode}">Delete</th>
     </tr>
 
-    <tr th:each="p : ${products}">
+    <tr th:each="p : ${productCatalogDTO.product}">
         <td th:text="${p.name}"></td>
         <td th:text="${p.color}"></td>
         <td th:text="${p.size}"></td>
@@ -41,7 +43,6 @@
             <a th:href="@{'/mvc-api/product/' + ${p.id}}">Details</a>
         </td>
 
-        <!-- Show delete button only in edit mode -->
         <td th:if="${editMode}">
             <a th:href="@{'/mvc-api/product/delete/' + ${p.id}}">Delete</a>
         </td>

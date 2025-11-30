@@ -7,6 +7,8 @@ import com.hsfulda.demo.products.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductDetailFacade {
     @Autowired
@@ -15,9 +17,11 @@ public class ProductDetailFacade {
     @Autowired
     private InventoryService inventoryService;
 
-    public ProductDetailDTO getProductDetailById(int id) {
+    public ProductDetailDTO getProductDetailById(Long id) {
         Product product = productService.getProductById(id);
         int stock = inventoryService.getStockForProductId(id);
-        return new ProductDetailDTO(product,stock);
+        return new ProductDetailDTO(product, stock);
     }
+
+
 }

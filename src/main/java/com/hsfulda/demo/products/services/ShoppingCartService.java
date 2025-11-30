@@ -5,5 +5,5 @@ import com.hsfulda.demo.products.model.ShoppingCart;
 
 public interface ShoppingCartService {
     ShoppingCart getCart();
-    void addProduct(int id);
+    void addProduct(Long id);
 }

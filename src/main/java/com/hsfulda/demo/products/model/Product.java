@@ -1,7 +1,20 @@
 package com.hsfulda.demo.products.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.NamedQuery;
+import jdk.jfr.Name;
+
+@Entity
+@NamedQuery(
+        name="Product.findByColor",
+        query = "SELECT p FROM Product p WHERE LOWER(p.color) = LOWER(:color)"
+)
 public class Product {
-    private int id;
+    @Id
+    @GeneratedValue
+    private Long id;
     private String name;
     private double price;
     private String size;
@@ -9,8 +22,7 @@ public class Product {
     private String category;
 
     public Product() {}
-    public Product(int id, String name, double price, String size, String color, String category) {
-        this.id = id;
+    public Product( String name, double price, String size, String color, String category) {
         this.name = name;
         this.price = price;
         this.size = size;
@@ -18,13 +30,11 @@ public class Product {
         this.category = category;
     }
 
-
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

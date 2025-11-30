@@ -14,7 +14,7 @@ public class AddToCartFacade {
     @Autowired
     private InventoryService inventoryService;
 
-    public void addToCart(int productId) {
+    public void addToCart(Long productId) {
         int stock = inventoryService.getStockForProductId(productId);
 
         if (stock > 0) {

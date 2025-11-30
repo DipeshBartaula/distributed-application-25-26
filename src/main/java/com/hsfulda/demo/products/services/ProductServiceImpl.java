@@ -1,41 +1,31 @@
 package com.hsfulda.demo.products.services;
 
 import com.hsfulda.demo.products.model.Product;
+import com.hsfulda.demo.products.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-    //Hardcoded data
-    public static List<Product> productList = new ArrayList<>();
-    static {
-        productList.addAll(List.of(
-                new Product(1, "T-Shirt", 19.99, "M", "Blue","T-shirt"),
-                new Product(2, "Jeans", 49.99, "32", "Black","Pants"),
-                new Product(3, "Sneakers", 79.99, "42", "White","Shoes"),
-                new Product(4, "Jacket", 99.99, "L", "Red","Jacket"),
-                new Product(5, "Cap", 14.99, "Free Size", "Green","Accessories")
-        ));
+    private final ProductRepository repository;
+
+    public ProductServiceImpl(ProductRepository repository) {
+        this.repository = repository;
     }
-    //Method to get all hardcoded product list
+
     public List<Product> getProductList() {
-        return productList;
+        return repository.findAll();
     }
-    // Utility method to get product by id
-    public Product getProductById(int id) {
-        return getProductList().stream()
-                .filter(product -> product.getId() == id)
-                .findFirst()
-                .orElse(null);
+    public Product getProductById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(()->new NoSuchElementException("Product with product id:"+id+" not found"));
     }
 
     public List<Product> getProductByColor(String color) {
-        return getProductList().stream()
-                .filter(product -> product.getColor().equalsIgnoreCase(color))
-                .toList();
+        return repository.findByColor(color);
     }
 
     public List<Product> getProductByCategoryAndSize(String category, String size) {
@@ -45,32 +35,37 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> addNewProduct(Product product) {
-        List<Product> existedProduct = productList.stream().filter(p-> p.getName().equals(product.getName())).toList();
-        if(!existedProduct.isEmpty()) {
-            return productList;
+    public Optional<Product> addNewProduct(Product product) {
+        Optional<Product> existingProductOptional = repository.findById(product.getId());
+        if(!existingProductOptional.isEmpty()) {
+            return Optional.empty();
         } else {
-            productList.add(product);
-            return productList;
+            return Optional.of(repository.save(product));
         }
     }
 
     @Override
-    public List<Product> deleteProduct(Long id) {
-        productList.removeIf(p->p.getId()==id);
-        return productList;
+    public String deleteProduct(Long id) {
+        repository.deleteById(id);
+        return "Product with product id :" + id +" deleted";
     }
 
     @Override
     public Optional<Product> updateProduct(Product updatedProduct) {
-        int productId = updatedProduct.getId();
+        Optional<Product> existingProductOptional = repository.findById(updatedProduct.getId());
+        if(existingProductOptional.isPresent()) {
+            Product existingProduct = existingProductOptional.get();
 
-        for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).getId() == productId) {
-                productList.set(i, updatedProduct);
-                return Optional.of(updatedProduct);
-            }
+            existingProduct.setName(updatedProduct.getName());
+            existingProduct.setPrice(updatedProduct.getPrice());
+            existingProduct.setSize(updatedProduct.getSize());
+            existingProduct.setColor(updatedProduct.getColor());
+            existingProduct.setCategory(updatedProduct.getCategory());
+
+            Product savedProduct = repository.save(existingProduct);
+            return Optional.of(savedProduct);
+        } else {
+            return Optional.empty();
         }
-        return Optional.empty();
     }
 }

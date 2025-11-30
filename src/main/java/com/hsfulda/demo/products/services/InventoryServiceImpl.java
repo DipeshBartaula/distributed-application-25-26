@@ -14,11 +14,11 @@ public class InventoryServiceImpl implements InventoryService {
         stock.put(5,3);
     }
 
-    public int getStockForProductId(int id) {
+    public int getStockForProductId(Long id) {
         return stock.getOrDefault(id,0);
     }
 
-    public boolean reduceStockForProductId(int productId, int amount) {
+    public boolean reduceStockForProductId(Long productId, int amount) {
         int currentStock = getStockForProductId(productId);
 
         if(currentStock <=0 || amount <=0) {
@@ -29,7 +29,7 @@ public class InventoryServiceImpl implements InventoryService {
             return false;
         }
 
-        stock.put(productId, currentStock - amount);
+        stock.put(Math.toIntExact(productId), currentStock - amount);
         return true;
     }
 }

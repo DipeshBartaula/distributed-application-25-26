@@ -17,7 +17,7 @@ public class ProductDetailController {
     private ProductDetailFacade productDetailFacade;
 
     @GetMapping("/product/{id}")
-    public String showProductDetail(@PathVariable int id, Model model) {
+    public String showProductDetail(@PathVariable Long id, Model model) {
 
         ProductDetailDTO dto = productDetailFacade.getProductDetailById(id);
 

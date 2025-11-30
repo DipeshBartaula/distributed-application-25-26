@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +34,7 @@ public class ProductController {
 
     //Creating endpoint product/{id}
     @GetMapping("/product/{id}")
-    public Product getProduct(@PathVariable int id) {
+    public Product getProduct(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
@@ -50,13 +51,12 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public List<Product> addProduct(@RequestParam int id,
-                                    @RequestParam String name,
-                                    @RequestParam double price,
-                                    @RequestParam String size,
-                                    @RequestParam String color,
-                                    @RequestParam String category) {
-        Product newProduct = new Product(id,name,price,size,color,category);
+    public Optional<Product> addProduct(@RequestParam String name,
+                                     @RequestParam double price,
+                                     @RequestParam String size,
+                                     @RequestParam String color,
+                                     @RequestParam String category) {
+        Product newProduct = new Product(name,price,size,color,category);
         return productService.addNewProduct(newProduct);
     }
 
@@ -67,7 +67,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/product/{id}")
-    public List<Product> deleteProduct(@PathVariable Long id) {
+    public String deleteProduct(@PathVariable Long id) {
         return productService.deleteProduct(id);
     }
 

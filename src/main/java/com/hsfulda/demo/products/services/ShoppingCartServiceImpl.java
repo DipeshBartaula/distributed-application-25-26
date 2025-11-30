@@ -19,7 +19,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
         return cart;
     }
 
-    public void addProduct(int id) {
+    public void addProduct(Long id) {
         Product p = productService.getProductById(id);
 
         cart.products.put(p, cart.products.getOrDefault(p,0) + 1);

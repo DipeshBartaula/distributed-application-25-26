@@ -21,7 +21,7 @@ public class ShoppingCartController {
     }
 
     @GetMapping("/addcart/{id}")
-    public String addToCart(@PathVariable int id) {
+    public String addToCart(@PathVariable Long id) {
         addToCartFacade.addToCart(id);
         return "redirect:/mvc-api/product/cart";
     }
