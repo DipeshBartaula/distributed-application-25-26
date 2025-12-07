@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Product Catalog - Paginated</title>
+
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f7f7f7; }
+        table { width: 90%; margin: 20px auto; border-collapse: collapse; background: white; }
+        th, td { padding: 10px; border: 1px solid black; }
+        th { background-color: #eee; }
+        .pagination { text-align: center; margin-top: 20px; }
+        .pagination a {
+            padding: 8px 16px;
+            margin: 0 5px;
+            border: 1px solid #333;
+            background: #e6f3f7;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            color: black;
+        }
+        .pagination a:hover { background-color: #d4e8ef; }
+    </style>
+</head>
+<body>
+
+<header th:replace="fragments/header :: header"></header>
+
+<h2 style="text-align:center;">Paginated Catalog</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Size</th>
+        <th>Price</th>
+        <th>Link</th>
+    </tr>
+
+    <tr th:each="p : ${products}">
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.color}"></td>
+        <td th:text="${p.size}"></td>
+        <td th:text="${p.price}"></td>
+        <td><a th:href="@{'/mvc-api/product/' + ${p.id}}">Details</a></td>
+    </tr>
+</table>
+
+<div class="pagination">
+
+    <a th:if="${page.hasPrevious()}"
+       th:href="@{/mvc-api/catalog-paginated(page=${page.number - 1})}">
+        Previous
+    </a>
+    <a th:if="${page.hasNext()}"
+       th:href="@{/mvc-api/catalog-paginated(page=${page.number + 1})}">
+        Next
+    </a>
+
+</div>
+
+</body>
+</html>

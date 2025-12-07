@@ -3,8 +3,11 @@ package com.hsfulda.demo.products.controller;
 import com.hsfulda.demo.products.dto.ProductCatalogDTO;
 import com.hsfulda.demo.products.dto.ProductDetailDTO;
 import com.hsfulda.demo.products.facade.ProductCatalogFacade;
+import com.hsfulda.demo.products.model.Product;
 import com.hsfulda.demo.products.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/mvc-api/product")
+@RequestMapping("/mvc-api")
 public class ProductCatalogController {
-    @Autowired
-    private ProductCatalogFacade productCatalogFacade;
-
+    private final ProductCatalogFacade productCatalogFacade;
     private final ProductService productService;
 
-    public ProductCatalogController(ProductService productService) {
+    public ProductCatalogController(ProductCatalogFacade productCatalogFacade, ProductService productService) {
+        this.productCatalogFacade = productCatalogFacade;
         this.productService = productService;
     }
 
@@ -48,6 +50,17 @@ public class ProductCatalogController {
 
         model.addAttribute("productCatalogDTO", dto);
         return "catalog";
-    }
+   }
+
+   @GetMapping("/catalog-paginated")
+   public String getPaginatedCatalog(@PageableDefault(size=3) Pageable pageable, Model model) {
+    Page<Product> productPage = productService.getPaginatedProducts(pageable);
+
+    model.addAttribute("products", productPage.getContent());
+    model.addAttribute("page", productPage);
+
+    return "catalog-paginated";
+   }
+
 }
 

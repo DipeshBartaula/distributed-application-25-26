@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.swing.text.html.Option;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class ProductController {
 
     @PostMapping("/product")
     public Optional<Product> addProduct(@RequestParam String name,
-                                     @RequestParam double price,
+                                     @RequestParam BigDecimal price,
                                      @RequestParam String size,
                                      @RequestParam String color,
                                      @RequestParam String category) {

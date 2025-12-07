@@ -2,6 +2,9 @@ package com.hsfulda.demo.products.services;
 
 import com.hsfulda.demo.products.model.Product;
 import com.hsfulda.demo.products.repository.ProductRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,4 +71,8 @@ public class ProductServiceImpl implements ProductService {
             return Optional.empty();
         }
     }
-}
+
+    public Page<Product> getPaginatedProducts(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+};

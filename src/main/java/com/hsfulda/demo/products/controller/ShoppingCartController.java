@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/mvc-api/product")
+@RequestMapping("/mvc-api")
 public class ShoppingCartController {
     @Autowired
     private AddToCartFacade addToCartFacade;
