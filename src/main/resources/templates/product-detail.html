@@ -1,30 +1,117 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Product Detail</title>
 </head>
+
 <body>
 
-<header th:replace="fragments/header :: header"></header>
+    <header th:replace="fragments/header :: header"></header>
 
-<h3>Product: <span th:text="'Product: ' + ${productDetailDTO.product.name}"></span></h3>
+    <h3>Product: <span th:text="'Product: ' + ${productDetailDTO.product.name}"></span></h3>
 
-<p>Size: <span th:text="${productDetailDTO.product.size}"></span></p>
-<p>Color: <span th:text="${productDetailDTO.product.color}"></span></p>
-<p>Price: <span th:text="${productDetailDTO.product.price}"></span></p>
+    <p>Size: <span th:text="${productDetailDTO.product.size}"></span></p>
+    <p>Color: <span th:text="${productDetailDTO.product.color}"></span></p>
+    <p>Price: <span th:text="${productDetailDTO.product.price}"></span></p>
 
-<p>
-    Stock:
-    <span th:if="${!productDetailDTO.isSoldOut}"
-          th:text="${productDetailDTO.stock}"></span>
-    <span th:if="${productDetailDTO.isSoldOut}"
-          style="color:red;font-weight:bold;">Sold Out</span>
-</p>
+    <p>
+        Stock:
+        <span th:if="${!productDetailDTO.isSoldOut}" th:text="${productDetailDTO.stock}"></span>
+        <span th:if="${productDetailDTO.isSoldOut}" style="color:red;font-weight:bold;">Sold Out</span>
+    </p>
 
-<a th:unless="${productDetailDTO.isSoldOut}"
-   th:href="@{/mvc-api/product/addcart/{id}(id=${productDetailDTO.product.id})}">
-    <button>Add to Cart</button>
-</a>
+    <a th:unless="${productDetailDTO.isSoldOut}"
+        th:href="@{/mvc-api/product/addcart/{id}(id=${productDetailDTO.product.id})}">
+        <button>Add to Cart</button>
+    </a>
+
+    <br><br>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+    <h3>Review the product</h3>
+    <form id="reviewForm">
+        <input type="hidden" id="productId" name="productId" th:value="${productDetailDTO.product.id}" />
+        <input type="hidden" id="productName" name="productName" th:value="${productDetailDTO.product.name}" />
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="userName" required />
+        <br><br>
+
+        <label for="review">Review:</label>
+        <br>
+        <textarea id="review" name="reviewText" rows="4" cols="50" required></textarea>
+        <br><br>
+
+        <button type="submit">Submit Review</button>
+    </form>
+
+    <br>
+    <hr>
+
+    <h3>Reviews</h3>
+    <div id="reviews-list">
+        <!-- Reviews will be appended here -->
+    </div>
+
+    <script type="text/javascript">
+        var stompClient = null;
+
+        function connect() {
+            var socket = new SockJS('/review-websocket');
+            stompClient = Stomp.over(socket);
+            stompClient.connect({}, function (frame) {
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/reviews', function (review) {
+                    showReview(JSON.parse(review.body));
+                });
+            });
+        }
+
+        function sendReview() {
+            var productId = $("#productId").val();
+            var productName = $("#productName").val();
+            var userName = $("#username").val();
+            var reviewText = $("#review").val();
+
+            var reviewData = {
+                'productId': productId,
+                'productName': productName,
+                'userName': userName,
+                'reviewText': reviewText
+            };
+
+            stompClient.send("/shop/review", {}, JSON.stringify(reviewData));
+
+            // Reset the form
+            $("#reviewForm")[0].reset();
+        }
+
+        function showReview(review) {
+
+            var reviewHtml = '<div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 5px;">' +
+                '<strong>' + review.userName + '</strong>' +
+                '<span style="font-size:small; color:gray; margin-left: 10px;">' + (review.date ? review.date : 'Just now') + '</span>' +
+                '<br>' +
+                '<p>' + review.reviewText + '</p>' +
+                '</div>';
+
+            $("#reviews-list").append(reviewHtml);
+        }
+
+        $(document).ready(function () {
+            connect();
+
+            $("#reviewForm").on('submit', function (e) {
+                e.preventDefault();
+                sendReview();
+            });
+        });
+    </script>
 
 </body>
+
 </html>
