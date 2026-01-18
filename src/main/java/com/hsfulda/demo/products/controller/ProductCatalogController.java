@@ -26,9 +26,9 @@ public class ProductCatalogController {
         this.productService = productService;
     }
 
-    @GetMapping
+    @GetMapping("/product")
     public String showCatalog(@RequestParam(required = false, defaultValue = "false") boolean edit,
-                              Model model) {
+            Model model) {
         ProductCatalogDTO dto = productCatalogFacade.getProductList();
         model.addAttribute("productCatalogDTO", dto);
         model.addAttribute("editMode", edit);
@@ -50,17 +50,16 @@ public class ProductCatalogController {
 
         model.addAttribute("productCatalogDTO", dto);
         return "catalog";
-   }
+    }
 
-   @GetMapping("/catalog-paginated")
-   public String getPaginatedCatalog(@PageableDefault(size=3) Pageable pageable, Model model) {
-    Page<Product> productPage = productService.getPaginatedProducts(pageable);
+    @GetMapping("/catalog-paginated")
+    public String getPaginatedCatalog(@PageableDefault(size = 3) Pageable pageable, Model model) {
+        Page<Product> productPage = productService.getPaginatedProducts(pageable);
 
-    model.addAttribute("products", productPage.getContent());
-    model.addAttribute("page", productPage);
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("page", productPage);
 
-    return "catalog-paginated";
-   }
+        return "catalog-paginated";
+    }
 
 }
-

@@ -1,36 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Your shopping cart</title>
 </head>
+
 <body>
-<header th:replace="fragments/header :: header"></header>
+    <header th:replace="fragments/header :: header"></header>
 
-<h2>Your Shopping cart</h2>
+    <h2>Your Shopping cart</h2>
 
-<table border="1" width="100%" cellpadding="5">
-    <tr>
-        <th>Name</th>
-        <th>Color</th>
-        <th>Size</th>
-        <th>Price</th>
-        <th>Quantity</th>
-    </tr>
+    <table border="1" width="100%" cellpadding="5">
+        <tr>
+            <th>Name</th>
+            <th>Color</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
 
-    <tr th:each="entry: ${cart.products.entrySet()}">
-        <td th:text="${entry.key.name}">Name</td>
-        <td th:text="${entry.key.color}">Color</td>
-        <td th:text="${entry.key.size}">Size</td>
-        <td th:text="${entry.key.price}">Price</td>
-        <td th:text="${entry.value}">Quantity</td>
-    </tr>
-</table>
+        <tr th:each="entry: ${cart.products.entrySet()}">
+            <td th:text="${entry.key.name}">Name</td>
+            <td th:text="${entry.key.color}">Color</td>
+            <td th:text="${entry.key.size}">Size</td>
+            <td th:text="${entry.key.price}">Price</td>
+            <td th:text="${entry.value}">Quantity</td>
+        </tr>
+    </table>
 
-<br>
+    <br>
 
-<div style="border: 1px solid black; padding:10px">
-    <strong>Total price:</strong> <br>
-    <span th:text="${cart.totalPrice}"></span>
-</div>
+    <div>
+        <strong>Prices are displayed in <span th:text="${cart.currency}"></span></strong>
+    </div>
+
+    <br>
+
+    <div style="border: 1px solid black; padding:10px">
+        <strong>Original Price:</strong> <br>
+        <span th:text="${cart.originalTotalPrice}"></span>
+    </div>
+
+    <br>
+
+    <div style="border: 1px solid black; padding:10px">
+        <strong>Total price:</strong> <br>
+        <span th:text="${cart.totalPrice}"></span>
+    </div>
+
+    <br>
+
+    <div th:if="${!cart.voucherApplied}">
+        <span th:text="'No voucher has been applied yet'"></span> <br><br>
+        <a href="/mvc-api/cart/voucher">
+            <button
+                style="background-color: #5b7fd6; color: white; padding: 5px 10px; border: none; font-weight: bold;">
+                Apply <span th:text="${voucherPercentage}">10</span>% Voucher
+            </button>
+        </a>
+    </div>
+
+    <div th:if="${cart.voucherApplied}">
+        <span th:text="'A ' + ${voucherPercentage} + '% voucher has been applied'"></span> <br><br>
+        <a href="/mvc-api/cart/removevoucher">
+            <button
+                style="background-color: #5b7fd6; color: white; padding: 5px 10px; border: none; font-weight: bold;">
+                Remove <span th:text="${voucherPercentage}">10</span>% Voucher
+            </button>
+        </a>
+    </div>
+
+    <br>
+
+    <div th:if="${cart.currency == 'EUR'}">
+        <a href="/mvc-api/cart/currency?code=USD">
+            <button
+                style="background-color: #5b7fd6; color: white; padding: 5px 10px; border: none; font-weight: bold;">
+                Convert to Dollar
+            </button>
+        </a>
+    </div>
+
+    <div th:if="${cart.currency == 'USD'}">
+        <a href="/mvc-api/cart/currency?code=EUR">
+            <button
+                style="background-color: #5b7fd6; color: white; padding: 5px 10px; border: none; font-weight: bold;">
+                Convert to Euro
+            </button>
+        </a>
+    </div>
 </body>
+
 </html>

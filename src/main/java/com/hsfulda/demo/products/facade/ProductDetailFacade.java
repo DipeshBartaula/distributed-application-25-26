@@ -8,20 +8,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
- * Facade component for managing detailed product information and inventory checks.
+ * Facade component for managing detailed product information and inventory
+ * checks.
  * 
- * <h3>Dependencies:</h3>
+ * <h2>Dependencies:</h2>
  * <ul>
- *   <li><strong>ProductService</strong> - Provides product information and lookup capabilities</li>
- *   <li><strong>InventoryService</strong> - Manages stock levels and inventory data for products</li>
+ * <li><strong>ProductService</strong> - Provides product information and lookup
+ * capabilities</li>
+ * <li><strong>InventoryService</strong> - Manages stock levels and inventory
+ * data for products</li>
  * </ul>
  * 
- * <h3>Responsibilities:</h3>
- * This facade combines product details with inventory information to provide a complete view
- * of a product including its current stock status. It aggregates data from both services
- * and returns enriched product information through Data Transfer Objects (DTOs).
+ * <h2>Responsibilities:</h2>
+ * This facade combines product details with inventory information to provide a
+ * complete view
+ * of a product including its current stock status. It aggregates data from both
+ * services
+ * and returns enriched product information through Data Transfer Objects
+ * (DTOs).
  */
 @Service
 public class ProductDetailFacade {
@@ -32,13 +39,16 @@ public class ProductDetailFacade {
     private InventoryService inventoryService;
 
     /**
-     * Retrieves complete details for a specific product including its current stock level.
+     * Retrieves complete details for a specific product including its current stock
+     * level.
      * 
-     * Combines product information from ProductService with inventory data from InventoryService
+     * Combines product information from ProductService with inventory data from
+     * InventoryService
      * to provide a comprehensive view of the product.
      * 
      * @param id the unique identifier of the product
-     * @return a ProductDetailDTO containing product details and current stock information
+     * @return a ProductDetailDTO containing product details and current stock
+     *         information
      * @throws NoSuchElementException if no product with the given id exists
      */
     public ProductDetailDTO getProductDetailById(Long id) {
@@ -46,6 +56,5 @@ public class ProductDetailFacade {
         int stock = inventoryService.getStockForProductId(id);
         return new ProductDetailDTO(product, stock);
     }
-
 
 }
