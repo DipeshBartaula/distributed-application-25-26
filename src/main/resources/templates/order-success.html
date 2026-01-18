@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Order Success</title>
+</head>
+
+<body>
+
+    <header th:replace="fragments/header :: header"></header>
+
+    <br><br>
+
+    <h3>Your Order was created successfully</h3>
+
+    <p>Order created with value: <span th:text="${order.totalPrice}"></span></p>
+    <p>User ID: <span th:text="${order.userId}"></span></p>
+
+</body>
+
+</html>

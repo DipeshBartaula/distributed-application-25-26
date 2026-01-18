@@ -50,6 +50,17 @@
 
     <br>
 
+    <div>
+        <form action="/mvc-api/checkout" method="post">
+            <input type="hidden" name="totalPrice" th:value="${cart.totalPrice}" />
+            <button type="submit" style="background-color: green; color: white; padding: 10px 20px; font-weight: bold;">
+                Pay Now
+            </button>
+        </form>
+    </div>
+
+    <br>
+
     <div th:if="${!cart.voucherApplied}">
         <span th:text="'No voucher has been applied yet'"></span> <br><br>
         <a href="/mvc-api/cart/voucher">
