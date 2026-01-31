@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
         }
 
         @org.springframework.beans.factory.annotation.Autowired
+        @org.springframework.context.annotation.Lazy
         private com.hsfulda.demo.products.services.OrderService orderService;
 
         public com.hsfulda.demo.products.model.Order getRecentOrderForUser() {
