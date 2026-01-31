@@ -13,4 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(name = "Product.findByColor")
     List<Product> findByColor(@Param("color") String color);
+
+    List<Product> findByCategory(String category);
 }

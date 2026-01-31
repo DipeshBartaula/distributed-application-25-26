@@ -10,7 +10,8 @@
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-KEY': 'SECRET_SAAS_KEY_123'
+          'X-API-KEY': 'SECRET_SAAS_KEY_123',
+          'X-TENANT-ID': 'shop-123'
         }
       });
       if (!response.ok) {
