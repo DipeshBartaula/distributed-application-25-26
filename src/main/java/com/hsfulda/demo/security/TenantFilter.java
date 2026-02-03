@@ -27,7 +27,7 @@ public class TenantFilter extends GenericFilterBean {
         HttpServletResponse res = (HttpServletResponse) response;
 
         // Apply filter to /saas endpoints
-        if (req.getRequestURI().startsWith("/saas")) {
+        if (req.getRequestURI().startsWith("/saas") && !req.getMethod().equalsIgnoreCase("OPTIONS")) {
             String tenantId = req.getHeader("X-TENANT-ID");
 
             if (tenantId == null || tenantId.isEmpty()) {

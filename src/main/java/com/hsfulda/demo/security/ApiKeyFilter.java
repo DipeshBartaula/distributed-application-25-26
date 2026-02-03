@@ -26,7 +26,7 @@ public class ApiKeyFilter extends GenericFilterBean {
 
         String path = req.getRequestURI();
 
-        if (path.startsWith("/saas")) {
+        if (path.startsWith("/saas") && !req.getMethod().equalsIgnoreCase("OPTIONS")) {
             String key = req.getHeader("X-API-KEY");
             if (key == null || !key.equals(apiKey)) {
                 res.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid API Key");
